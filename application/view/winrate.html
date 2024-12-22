@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>勝率查詢系統</title>
+    <link rel="stylesheet" href="/css/winrate.css">
+</head>
+<body>
+    <div class="container">
+        <h1>勝率查詢系統</h1>
+        <input type="text" id="username" placeholder="輸入使用者名稱">
+        <button id="fetchWinRates">確認</button>
+        <div class="results" id="winRates">
+            <!-- 勝率資料將動態顯示 -->
+        </div>
+        <button id="fetchHeroes" style="display: none;">顯示英雄詳細勝率</button>
+        <div class="results" id="heroWinRates">
+            <!-- 英雄勝率資料將動態顯示 -->
+        </div>
+    </div>
+    
+    <div class="container">
+        <h1>新增遊戲結果</h1>
+        <input type="text" id="newUsername" placeholder="輸入使用者名稱">
+        <input type="password" id="password" placeholder="輸入密碼">
+        <input type="text" id="role" placeholder="輸入角色名稱">
+        <select id="gameResult">
+            <option value="win">勝</option>
+            <option value="lose">負</option>
+        </select>
+        <button id="addGameResult">新增結果</button>
+        <div class="results" id="addResultMessage">
+            <!-- 新增結果的訊息將動態顯示 -->
+        </div>
+    </div>
+
+    <script src="/js/winrate.js"></script>
+</body>
+</html>

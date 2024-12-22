@@ -5,6 +5,7 @@ const path = require("path");
 const hbs = require("hbs");
 const bodyParser = require("body-parser");
 const evaluationRouter = require("./router/evaluation");
+const winrateRouter = require("./router/winrate_router");
 const db = require('./db');
 
 app.engine("html", hbs.__express);
@@ -28,7 +29,7 @@ app.get("/", (req, res)=>{
     res.send("這是根目錄")
 })
 app.use("/evaluation", evaluationRouter);
-
+app.use("/winrate", winrateRouter);
     
 app.listen(port_num, ()=>{
     console.log(`server is running at port ${port_num}`);
