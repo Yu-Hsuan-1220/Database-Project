@@ -17,8 +17,22 @@ router.get("/heroWinRates", (req, res)=>{
 })
 router.post("/addGameResult", (req, res)=>{
     let body = req.body;
-    console.log(body);
-    res.send({"result" : "incorrectpw"});
+    let username = body["username"];
+    let passwd = body["passwd"];
+    
+
+    const sql_check = "select * from users u where u.username = ? and u.passwd = ?";
+    const value = [username, passwd];
+    db.query(sql_check, value, (err, result)=>{
+        if(err) console.log(err);
+        if(result.length === 0){
+            res.send({"result" : "incorrectpw"});
+        }
+        else{
+            
+        }
+    })
+    
 })
 
 module.exports = router;

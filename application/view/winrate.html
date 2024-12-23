@@ -26,7 +26,14 @@
         <input type="password" id="password" placeholder="輸入密碼">
         <input type="text" id="role" placeholder="輸入角色名稱">
         <input type="text" id="hero" placeholder="輸入使用英雄">
-        <input type="text" id="lane" placeholder="輸入路線 (如上路/中路)">
+        <select id="lane">
+            <option value="" disabled selected>選擇路線</option>
+            <option value="top">上路</option>
+            <option value="mid">中路</option>
+            <option value="jungle">打野</option>
+            <option value="ad">下路</option>
+            <option value="sup">輔助</option>
+        </select>
         <select id="gameResult">
             <option value="win">勝</option>
             <option value="lose">負</option>
