@@ -17,6 +17,7 @@ router.get("/heroWinRates", (req, res)=>{
 })
 router.post("/addGameResult", (req, res)=>{
     let body = req.body;
+    console.log(body);
     let username = body["username"];
     let passwd = body["passwd"];
     
@@ -29,6 +30,17 @@ router.post("/addGameResult", (req, res)=>{
             res.send({"result" : "incorrectpw"});
         }
         else{
+            const insert_sql = "insert into users_game (username, hero, role, is_win) values (?, ?, ?, ?)";
+            let value1 = [body["username"], body["hero"], body["lane"]];
+            if(body["result"] === "win") value1.push(true);
+            else value1.push(false);
+            console.log(value1);
+            db.query(insert_sql, value1, (err, result)=>{
+                if(err) console.log(err);
+                else{
+                    res.send({"result" : "success"});
+                }
+            })
             
         }
     })

@@ -64,12 +64,11 @@ document.getElementById('fetchHeroes').addEventListener('click', function () {
 document.getElementById('addGameResult').addEventListener('click', function () {
     const username = document.getElementById('newUsername').value;
     const password = document.getElementById('password').value;
-    const role = document.getElementById('role').value;
     const hero = document.getElementById('hero').value;
     const lane = document.getElementById('lane').value;
     const result = document.getElementById('gameResult').value;
 
-    if (!username || !password || !role || !hero || !lane || !result) {
+    if (!username || !password || !hero || !lane || !result) {
         alert("請填寫所有欄位");
         return;
     }
@@ -80,7 +79,7 @@ document.getElementById('addGameResult').addEventListener('click', function () {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, passwd: password, role, hero, lane, result }),
+        body: JSON.stringify({ username, passwd: password, hero, lane, result }),
     })
     .then(response => response.json())
     .then(data => {
