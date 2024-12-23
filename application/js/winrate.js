@@ -6,12 +6,11 @@ document.getElementById('fetchWinRates').addEventListener('click', function () {
     }
 
     // 發送 AJAX 請求查詢勝率
-    fetch('/getWinRates', {
-        method: 'POST',
+    fetch(`/winrate/userWinRate?username=${username}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username }),
     })
     .then(response => response.json())
     .then(data => {
@@ -41,12 +40,12 @@ document.getElementById('fetchHeroes').addEventListener('click', function () {
     }
 
     // 發送 AJAX 請求查詢英雄勝率
-    fetch('/getHeroWinRates', {
-        method: 'POST',
+    fetch(`/winrate/HeroWinRates?username=${username}`, {
+        method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username }),
+        
     })
     .then(response => response.json())
     .then(data => {
@@ -66,9 +65,11 @@ document.getElementById('addGameResult').addEventListener('click', function () {
     const username = document.getElementById('newUsername').value;
     const password = document.getElementById('password').value;
     const role = document.getElementById('role').value;
+    const hero = document.getElementById('hero').value;
+    const lane = document.getElementById('lane').value;
     const result = document.getElementById('gameResult').value;
 
-    if (!username || !password || !role || !result) {
+    if (!username || !password || !role || !hero || !lane || !result) {
         alert("請填寫所有欄位");
         return;
     }
@@ -79,7 +80,7 @@ document.getElementById('addGameResult').addEventListener('click', function () {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, passwd: password, role, result }),
+        body: JSON.stringify({ username, passwd: password, role, hero, lane, result }),
     })
     .then(response => response.json())
     .then(data => {

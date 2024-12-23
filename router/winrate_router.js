@@ -8,6 +8,7 @@ router.get("/", (req, res)=>{
 })
 router.get("/userWinRate", (req, res)=>{
     let username = req.query.username;
+    console.log(username);
     res.send({"total" : 52, "top": 42,"jungle": 52 ,"mid" : 62, "sup" : 32, "ad":32})
 })
 router.get("/heroWinRates", (req, res)=>{

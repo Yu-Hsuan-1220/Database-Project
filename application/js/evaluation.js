@@ -61,7 +61,7 @@ document.getElementById('search-button').addEventListener('click', function() {
                     <td>${item.hero}</td>
                     <td>${item.role}</td>
                     <td>${item.rate}</td>
-                `;
+                `; 
                 tableBody.appendChild(row);
             });
         } else {
