@@ -6,15 +6,101 @@ const db = require("../db.js");
 router.get("/", (req, res)=>{
     res.render("winrate.html");
 })
-router.get("/userWinRate", (req, res)=>{
-    let username = req.query.username;
+router.get("/userWinRate", (req, res) => {
+    const username = req.query.username;
     console.log(username);
-    res.send({"total" : 52, "top": 42,"jungle": 52 ,"mid" : 62, "sup" : 32, "ad":32})
-})
-router.get("/heroWinRates", (req, res)=>{
-    let username = req.query.username;
-    res.send({"result" : [{"艾希" : 18}, {"卡特" : 20}, {"提摩" : 70}]});
-})
+
+    // 預設角色及初始勝率為 0
+    const roles = ["top", "jungle", "mid", "sup", "ad"];
+    const defaultWinRates = roles.reduce((acc, role) => {
+        acc[role] = "0.00";
+        return acc;
+    }, {});
+
+    // 查詢每個角色的勝率
+    const sql = `
+        SELECT 
+            role, 
+            ROUND(AVG(is_win) * 100, 2) AS win_rate 
+        FROM 
+            users_game 
+        WHERE 
+            username = ? 
+        GROUP BY 
+            role
+    `;
+
+    // 查詢總勝率
+    const sql2 = `
+        SELECT 
+            ROUND(AVG(is_win) * 100, 2) AS total 
+        FROM 
+            users_game 
+        WHERE 
+            username = ?
+    `;
+
+    // 執行兩個查詢
+    db.query(sql, [username], (err, roleWinRates) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send({ error: "Internal Server Error" });
+        }
+
+        // 將角色勝率整合到預設值
+        roleWinRates.forEach((row) => {
+            defaultWinRates[row.role] = `${row.win_rate}`;
+        });
+
+        // 查詢總勝率
+        db.query(sql2, [username], (err, totalWinRateResult) => {
+            if (err) {
+                console.error(err);
+                return res.status(500).send({ error: "Internal Server Error" });
+            }
+
+            const totalWinRate = totalWinRateResult[0]?.total ? `${totalWinRateResult[0].total}` : "0";
+
+            // 回傳結果
+            res.send({
+                total: totalWinRate,
+                ...defaultWinRates
+            });
+        });
+    });
+});
+router.get("/heroWinRates", (req, res) => {
+    const username = req.query.username;
+    console.log(username);
+
+    // 查詢每個英雄的勝率
+    const sql = `
+        SELECT 
+            hero, 
+            ROUND(AVG(is_win) * 100, 2) AS win_rate 
+        FROM 
+            users_game 
+        WHERE 
+            username = ? 
+        GROUP BY 
+            hero
+    `;
+
+    db.query(sql, [username], (err, heroWinRates) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send({ error: "Internal Server Error" });
+        }
+
+        // 格式化結果
+        const result = heroWinRates.map(row => {
+            return { [row.hero]: row.win_rate };
+        });
+
+        // 回傳結果
+        res.send({ result });
+    });
+});
 router.post("/addGameResult", (req, res)=>{
     let body = req.body;
     console.log(body);
