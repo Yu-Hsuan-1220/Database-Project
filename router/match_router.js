@@ -7,8 +7,8 @@ router.get("/", (req, res)=>{
 })
 
 
-router.post("/match/calculate", (req, res)=>{
+router.post("/calculate", (req, res)=>{
     const body = req.body;
     console.log(body);
-    
+
 })
