@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const evaluationRouter = require("./router/evaluation");
 const winrateRouter = require("./router/winrate_router");
 const adduserRouter = require("./router/adduser_router");
+const heroDataRouter = require("./router/heroData_router");
 const db = require('./db');
 
 app.engine("html", hbs.__express);
@@ -32,6 +33,7 @@ app.get("/", (req, res)=>{
 app.use("/evaluation", evaluationRouter);
 app.use("/winrate", winrateRouter);
 app.use("/adduser", adduserRouter);
+app.use("/heroData", heroDataRouter);
     
 app.listen(port_num, ()=>{
     console.log(`server is running at port ${port_num}`);
