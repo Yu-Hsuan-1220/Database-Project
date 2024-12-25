@@ -1,9 +1,22 @@
 document.getElementById('signup').addEventListener('click', function(){
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value; // 取得確認密碼的值
+    const responseMessageElement = document.getElementById('responseMessage');
     const data={
         username: username,
         password: password
+    }
+    if (password !== confirmPassword) {
+        responseMessageElement.style.color = 'red';
+        responseMessageElement.textContent = '密碼與確認密碼不一致，請重新確認！';
+        
+        // 重整頁面
+        setTimeout(function() {
+            location.reload();
+        }, 2000); // 2秒後重整頁面，讓使用者有時間看到提示訊息
+
+        return; // 若密碼不一致，終止執行後續程式
     }
     fetch('/adduser/addNewUser', {
         method: 'POST',
