@@ -10,7 +10,7 @@ router.get("/", (req, res)=>{
 
 router.post("/addNewUser", (req, res)=>{
     let body = req.body;
-    
+    console.log(body);
     const check_sql = "select * from users where username = ?";
     let check_username = [body["username"]];
     db.query(check_sql, check_username, (err, result)=>{
@@ -22,7 +22,7 @@ router.post("/addNewUser", (req, res)=>{
         }
         else{
             const sql = "insert into users (username, passwd) values(?, ?)";
-            let value = [body["username"], body["passwd"]];
+            let value = [body["username"], body["password"]];
             db.query(sql, value, (err, result)=>{
                 if(err){
                     console.log(err);
