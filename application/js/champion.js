@@ -287,6 +287,19 @@ async function analyzeChampion() {
         // 顯示結果
         resultDiv.style.display = 'block';
 
+        // Check what type of data result is
+        console.log('Result type:', typeof result, 'Result value:', result);
+
+        // If result is coming as a string, parse it first
+        if (typeof result === 'string') {
+            result = JSON.parse(result);
+        }
+
+        // If result is an object but not an array, convert it to array if needed
+        if (result && !Array.isArray(result)) {
+            result = Object.values(result);
+        }
+
         // 更新最佳對手列表（前5名）
         const bestList = document.getElementById('best-matchups-list');
         bestList.innerHTML = result.slice(0, 5).map(matchup => `
