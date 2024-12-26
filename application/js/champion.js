@@ -382,7 +382,6 @@ async function updateStats() {
 async function calculateObjectiveWinRate() {
     const selectedObjective = document.getElementById('objective-select').value;
     const resultDiv = document.getElementById('objective-result');
-    const loadingScreen = document.getElementById('loading-screen');
 
     if (!selectedObjective) {
         alert('請選擇一個目標！');
@@ -390,9 +389,6 @@ async function calculateObjectiveWinRate() {
     }
 
     try {
-        // 显示加载画面
-        loadingScreen.style.display = 'flex';
-
         const response = await fetch(`/match/calculate?type=${selectedObjective}`, {
             method: 'GET',
             headers: {
@@ -405,9 +401,6 @@ async function calculateObjectiveWinRate() {
         }
 
         const result = await response.json();
-
-        // 隐藏加载画面
-        loadingScreen.style.display = 'none';
 
         // 显示结果
         resultDiv.style.display = 'block';
@@ -429,8 +422,6 @@ async function calculateObjectiveWinRate() {
     } catch (error) {
         console.error('Error:', error);
         alert('獲取勝率數據失敗，請稍後再試');
-        // 发生错误时也要隐藏加载画面
-        loadingScreen.style.display = 'none';
     }
 }
 
