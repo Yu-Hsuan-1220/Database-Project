@@ -1,0 +1,285 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.champion-select {
+    margin: 20px 0;
+}
+
+select {
+    padding: 8px;
+    font-size: 16px;
+    width: 200px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 8px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#result,
+#team-result {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: none;
+}
+
+/* 團隊對戰相關樣式 */
+.battle-mode {
+    margin: 30px 0;
+    padding-top: 30px;
+    border-top: 2px solid #eee;
+}
+
+.teams-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.team {
+    width: 45%;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.blue-team {
+    background-color: rgba(0, 0, 255, 0.1);
+}
+
+.red-team {
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.team h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.team-picks {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mode-selector {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.mode-selector button {
+    margin: 0 10px;
+}
+
+.battle-section {
+    display: none;
+}
+
+.battle-section.active {
+    display: block;
+}
+
+/* 英雄分析相關樣式 */
+#analysis-result {
+    display: none;
+    margin-top: 30px;
+}
+
+.best-matchups,
+.worst-matchups {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.best-matchups {
+    background-color: rgba(76, 175, 80, 0.1);
+}
+
+.worst-matchups {
+    background-color: rgba(244, 67, 54, 0.1);
+}
+
+.matchup-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    margin: 8px 0;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.matchup-details {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.total-matches {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.best-matchups .winrate {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.worst-matchups .winrate {
+    color: #f44336;
+    font-weight: bold;
+}
+
+/* 數據查詢相關樣式 */
+.stats-container {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    margin: 10px 0;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.stat-item label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.stat-result {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+#stats-result {
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    display: none;
+}
+
+/* 目標勝率相關樣式 */
+.objective-container {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+}
+
+.objective-select {
+    margin-bottom: 20px;
+}
+
+.objective-select label {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#objective-result {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+#objective-result h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+#objective-result p {
+    font-size: 1.1em;
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* 目標勝率複選框相關樣式 */
+.objective-checkboxes {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.objective-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.objective-item label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.objective-result {
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+#objective-result {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: none;
+}
+
+#objective-result h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+#objective-result ul {
+    margin: 10px 0;
+    padding-left: 20px;
+}
+
+#objective-result li {
+    margin: 5px 0;
+    color: #666;
+}

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8">
+        <title>英雄對戰勝率查詢</title>
+        <link rel="stylesheet" href="/css/champion.css">
+    </head>
+    <body>
+
+        <div class="container">
+            <div class="mode-selector">
+                <button onclick="switchMode('single')">單人對戰</button>
+                <button onclick="switchMode('team')">團隊對戰</button>
+                <button onclick="switchMode('analysis')">英雄分析</button>
+                <button onclick="switchMode('objective')">目標勝率</button>
+            </div>
+
+            <!-- 單人對戰部分 -->
+            <div id="single-battle" class="battle-section active">
+                <h2>單人對戰勝率查詢</h2>
+                <div class="champion-select">
+                    <label for="champion1">選擇第一個英雄：</label>
+                    <select id="champion1">
+                        <option value="">請選擇英雄</option>
+                    </select>
+                </div>
+
+                <div class="champion-select">
+                    <label for="champion2">選擇第二個英雄：</label>
+                    <select id="champion2">
+                        <option value="">請選擇英雄</option>
+                    </select>
+                </div>
+
+                <button onclick="calculateWinRate()">查看勝率</button>
+                <div id="result"></div>
+            </div>
+
+            <!-- 團隊對戰部分 -->
+            <div id="team-battle" class="battle-section">
+                <h2>團隊對戰勝率查詢</h2>
+                <div class="teams-container">
+                    <div class="team blue-team">
+                        <h3>我方陣容</h3>
+                        <div class="team-picks">
+                            <div class="champion-select">
+                                <select class="blue-pick">
+                                    <option value="">請選擇英雄</option>
+                                </select>
+                            </div>
+                            <div class="champion-select">
+                                <select class="blue-pick">
+                                    <option value="">請選擇英雄</option>
+                                </select>
+                            </div>
+                            <div class="champion-select">
+                                <select class="blue-pick">
+                                    <option value="">請選擇英雄</option>
+                                </select>
+                            </div>
+                            <div class="champion-select">
+                                <select class="blue-pick">
+                                    <option value="">請選擇英雄</option>
+                                </select>
+                            </div>
+                            <div class="champion-select">
+                                <select class="blue-pick">
+                                    <option value="">請選擇英雄</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="team red-team">
+                        <h3>敵方陣容</h3>
+                        <div class="team-picks">
+                            <div class="champion-select">
+                                <select class="red-pick">
+                                    <option value="">請選擇英雄</option>
+                                </select>
+                            </div>
+                            <div class="champion-select">
+                                <select class="red-pick">
+                                    <option value="">請選擇英雄</option>
+                                </select>
+                            </div>
+                            <div class="champion-select">
+                                <select class="red-pick">
+                                    <option value="">請選擇英雄</option>
+                                </select>
+                            </div>
+                            <div class="champion-select">
+                                <select class="red-pick">
+                                    <option value="">請選擇英雄</option>
+                                </select>
+                            </div>
+                            <div class="champion-select">
+                                <select class="red-pick">
+                                    <option value="">請選擇英雄</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button onclick="calculateTeamWinRate()">查看團隊勝率</button>
+                <div id="team-result"></div>
+            </div>
+
+            <!-- 新增的英雄分析部分 -->
+            <div id="analysis-battle" class="battle-section">
+                <h2>英雄對戰分析</h2>
+                <div class="champion-select">
+                    <label for="analysis-champion">選擇要分析的英雄：</label>
+                    <select id="analysis-champion">
+                        <option value="">請選擇英雄</option>
+                    </select>
+                </div>
+                <div class="position-select">
+                    <label for="analysis-position">選擇位置：</label>
+                    <select id="analysis-position">
+                        <option value="">請選擇位置</option>
+                        <option value="TOP">上路</option>
+                        <option value="JUNGLE">打野</option>
+                        <option value="MID">中路</option>
+                        <option value="BOT">下路</option>
+                        <option value="BOT">輔助</option>
+                    </select>
+                </div>
+
+                <button onclick="analyzeChampion()">分析英雄</button>
+                <div id="analysis-result">
+                    <div class="best-matchups">
+                        <h3>最佳對手（勝率最高）</h3>
+                        <ul id="best-matchups-list"></ul>
+                    </div>
+                    <div class="worst-matchups">
+                        <h3>最差對手（勝率最低）</h3>
+                        <ul id="worst-matchups-list"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 新增的目標勝率查詢部分 -->
+            <div id="objective-battle" class="battle-section">
+                <h2>目標勝率查詢</h2>
+                <div class="objective-container">
+                    <div class="objective-select">
+                        <label for="objective-select">選擇目標：</label>
+                        <select id="objective-select">
+                            <option value="">請選擇目標</option>
+                            <option value="dragon">拿到第一條小龍</option>
+                            <option value="baron">拿到第一條巴龍</option>
+                            <option value="tower">拿到首塔</option>
+                            <option value="inhib">拿到第一座兵營</option>
+                            <option value="blue">藍方</option>
+                            <option value="nexus">拿到第一座主堡</option>
+                        </select>
+                        <button onclick="calculateObjectiveWinRate()">查詢勝率</button>
+                    </div>
+                    <div id="objective-result"></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="/js/champion.js"></script>
+    </body>
+</html>
