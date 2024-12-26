@@ -438,7 +438,7 @@ async function calculateObjectiveWinRate() {
             return;
         }
 
-        const response = await fetch(`/match/objective?type=${selectedObjective}`, {
+        const response = await fetch(`/match/calculate?type=${selectedObjective}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
