@@ -199,9 +199,9 @@ async function calculateWinRate() {
 }
 
 // 團隊對戰勝率計算
-function calculateTeamWinRate() {
-    const bluePicks = Array.from(document.querySelectorAll('.blue-pick')).map(select => select.value);
-    const redPicks = Array.from(document.querySelectorAll('.red-pick')).map(select => select.value);
+async function calculateTeamWinRate() {
+    const bluePicks = Array.from(document.querySelectorAll('.blue-pick')).map(select => select.options[select.selectedIndex].text);
+    const redPicks = Array.from(document.querySelectorAll('.red-pick')).map(select => select.options[select.selectedIndex].text);
     const resultDiv = document.getElementById('team-result');
 
     if (bluePicks.includes('') || redPicks.includes('')) {
@@ -209,29 +209,53 @@ function calculateTeamWinRate() {
         return;
     }
 
+    // 检查重复英雄
     const allPicks = [...bluePicks, ...redPicks];
-    const uniquePicks = new Set(allPicks.filter(pick => pick !== ''));
+    const uniquePicks = new Set(allPicks);
     if (uniquePicks.size !== allPicks.length) {
         alert('不能選擇重複的英雄！');
         return;
     }
 
-    const teamSynergy = Math.random() * 0.2;
-    const baseWinRate = 0.5;
-    const finalWinRate = Math.min(Math.max((baseWinRate + teamSynergy) * 100, 35), 65);
+    try {
+        // 準備要發送的數據
+        const data = {
+            blue_team: bluePicks,
+            red_team: redPicks
+        };
 
-    resultDiv.style.display = 'block';
-    resultDiv.innerHTML = `
-        <h3>團隊對戰勝率分析</h3>
-        <p>我方陣容勝率：${finalWinRate.toFixed(1)}%</p>
-        <p>敵方陣容勝率：${(100 - finalWinRate).toFixed(1)}%</p>
-        <div class="analysis">
-            <h4>分析建議：</h4>
-            <ul>
-                ${generateTeamAnalysis(finalWinRate)}
-            </ul>
-        </div>
-    `;
+        // 發送 POST 請求到後端
+        const response = await fetch('/match/5v5', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+
+        if (!response.ok) {
+            throw new Error('網絡請求失敗');
+        }
+
+        const result = await response.json();
+
+        // 顯示結果
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `
+            <h3>團隊對戰勝率分析</h3>
+            <p>我方陣容勝率：${result.result}%</p>
+            <p>敵方陣容勝率：${(100 - result.result).toFixed(1)}%</p>
+            <div class="analysis">
+                <h4>分析建議：</h4>
+                <ul>
+                    ${generateTeamAnalysis(result.result)}
+                </ul>
+            </div>
+        `;
+    } catch (error) {
+        console.error('Error:', error);
+        alert('獲取勝率數據失敗，請稍後再試');
+    }
 }
 
 function generateTeamAnalysis(winRate) {
