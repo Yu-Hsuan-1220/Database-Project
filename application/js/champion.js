@@ -150,29 +150,29 @@ function switchMode(mode) {
 
 // 單人對戰勝率計算
 async function calculateWinRate() {
-    const champion1 = document.getElementById('champion1').value;
-    const champion2 = document.getElementById('champion2').value;
+    const champion1 = document.getElementById('champion1');
+    const champion2 = document.getElementById('champion2');
     const resultDiv = document.getElementById('result');
 
-    if (!champion1 || !champion2) {
+    if (!champion1.value || !champion2.value) {
         alert('請選擇兩個英雄！');
         return;
     }
 
-    if (champion1 === champion2) {
+    if (champion1.value === champion2.value) {
         alert('請選擇兩個不同的英雄！');
         return;
     }
 
     try {
-        // 準備要發送的數據，只發送英雄名稱
+        // 準備要發送的數據
         const data = {
-            hero1: document.getElementById('champion1').options[document.getElementById('champion1').selectedIndex].text,
-            hero2: document.getElementById('champion2').options[document.getElementById('champion2').selectedIndex].text
+            hero1: champion1.options[champion1.selectedIndex].text,
+            hero2: champion2.options[champion2.selectedIndex].text
         };
 
         // 發送 POST 請求到後端
-        const response = await fetch('/match/calculate', {
+        const response = await fetch('/match/1v1', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ async function calculateWinRate() {
         resultDiv.style.display = 'block';
         resultDiv.innerHTML = `
             <h3>對戰勝率結果</h3>
-            <p>${data.hero1} 對陣 ${data.hero2} 的勝率為: ${result.winRate}%</p>
+            <p>${data.hero1} 對陣 ${data.hero2} 的勝率為: ${result.result}%</p>
         `;
     } catch (error) {
         console.error('Error:', error);
