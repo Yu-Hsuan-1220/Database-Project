@@ -148,23 +148,33 @@ function switchMode(mode) {
     document.getElementById(`${mode}-battle`).classList.add('active');
 }
 
+// 添加顯示和隱藏 loading 的函數
+function showLoading() {
+    document.getElementById('loadingOverlay').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loadingOverlay').style.display = 'none';
+}
+
 // 單人對戰勝率計算
 async function calculateWinRate() {
-    const champion1 = document.getElementById('champion1');
-    const champion2 = document.getElementById('champion2');
-    const resultDiv = document.getElementById('result');
-
-    if (!champion1.value || !champion2.value) {
-        alert('請選擇兩個英雄！');
-        return;
-    }
-
-    if (champion1.value === champion2.value) {
-        alert('請選擇兩個不同的英雄！');
-        return;
-    }
-
+    showLoading();
     try {
+        const champion1 = document.getElementById('champion1');
+        const champion2 = document.getElementById('champion2');
+        const resultDiv = document.getElementById('result');
+
+        if (!champion1.value || !champion2.value) {
+            alert('請選擇兩個英雄！');
+            return;
+        }
+
+        if (champion1.value === champion2.value) {
+            alert('請選擇兩個不同的英雄！');
+            return;
+        }
+
         // 準備要發送的數據
         const data = {
             hero1: champion1.options[champion1.selectedIndex].text,
@@ -172,7 +182,7 @@ async function calculateWinRate() {
         };
 
         // 發送 POST 請求到後端
-        const response = await fetch('/match/1v1', {
+        const response = await fetch('/match/single', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -195,29 +205,32 @@ async function calculateWinRate() {
     } catch (error) {
         console.error('Error:', error);
         alert('獲取勝率數據失敗，請稍後再試');
+    } finally {
+        hideLoading();
     }
 }
 
 // 團隊對戰勝率計算
 async function calculateTeamWinRate() {
-    const bluePicks = Array.from(document.querySelectorAll('.blue-pick')).map(select => select.options[select.selectedIndex].text);
-    const redPicks = Array.from(document.querySelectorAll('.red-pick')).map(select => select.options[select.selectedIndex].text);
-    const resultDiv = document.getElementById('team-result');
-
-    if (bluePicks.includes('') || redPicks.includes('')) {
-        alert('請為雙方選擇完整的五名英雄！');
-        return;
-    }
-
-    // 检查重复英雄
-    const allPicks = [...bluePicks, ...redPicks];
-    const uniquePicks = new Set(allPicks);
-    if (uniquePicks.size !== allPicks.length) {
-        alert('不能選擇重複的英雄！');
-        return;
-    }
-
+    showLoading();
     try {
+        const bluePicks = Array.from(document.querySelectorAll('.blue-pick')).map(select => select.options[select.selectedIndex].text);
+        const redPicks = Array.from(document.querySelectorAll('.red-pick')).map(select => select.options[select.selectedIndex].text);
+        const resultDiv = document.getElementById('team-result');
+
+        if (bluePicks.includes('') || redPicks.includes('')) {
+            alert('請為雙方選擇完整的五名英雄！');
+            return;
+        }
+
+        // 检查重复英雄
+        const allPicks = [...bluePicks, ...redPicks];
+        const uniquePicks = new Set(allPicks);
+        if (uniquePicks.size !== allPicks.length) {
+            alert('不能選擇重複的英雄！');
+            return;
+        }
+
         // 準備要發送的數據
         const data = {
             blue_team: bluePicks,
@@ -225,7 +238,7 @@ async function calculateTeamWinRate() {
         };
 
         // 發送 POST 請求到後端
-        const response = await fetch('/match/5v5', {
+        const response = await fetch('/match/team', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -261,6 +274,8 @@ async function calculateTeamWinRate() {
     } catch (error) {
         console.error('Error:', error);
         alert('獲取勝率數據失敗，請稍後再試');
+    } finally {
+        hideLoading();
     }
 }
 
@@ -283,16 +298,17 @@ function generateTeamAnalysis(winRate) {
 
 // 分析英雄
 async function analyzeChampion() {
-    const champion = document.getElementById('analysis-champion');
-    const position = document.getElementById('analysis-position');
-    const resultDiv = document.getElementById('analysis-result');
-
-    if (!champion.value || !position.value) {
-        alert('請選擇英雄和位置！');
-        return;
-    }
-
+    showLoading();
     try {
+        const champion = document.getElementById('analysis-champion');
+        const position = document.getElementById('analysis-position');
+        const resultDiv = document.getElementById('analysis-result');
+
+        if (!champion.value || !position.value) {
+            alert('請選擇英雄和位置！');
+            return;
+        }
+
         // 準備要發送的數據
         const data = {
             champion: champion.options[champion.selectedIndex].text,
@@ -300,7 +316,7 @@ async function analyzeChampion() {
         };
 
         // 發送 POST 請求到後端
-        const response = await fetch('/match/analyze', {
+        const response = await fetch('/match/analysis', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -347,6 +363,8 @@ async function analyzeChampion() {
     } catch (error) {
         console.error('Error:', error);
         alert('分析失敗，請稍後再試');
+    } finally {
+        hideLoading();
     }
 }
 
@@ -410,16 +428,17 @@ async function updateStats() {
 
 // 計算目標勝率
 async function calculateObjectiveWinRate() {
-    const selectedObjective = document.getElementById('objective-select').value;
-    const resultDiv = document.getElementById('objective-result');
-
-    if (!selectedObjective) {
-        alert('請選擇一個目標！');
-        return;
-    }
-
+    showLoading();
     try {
-        const response = await fetch(`/match/calculate?type=${selectedObjective}`, {
+        const selectedObjective = document.getElementById('objective-select').value;
+        const resultDiv = document.getElementById('objective-result');
+
+        if (!selectedObjective) {
+            alert('請選擇一個目標！');
+            return;
+        }
+
+        const response = await fetch('/match/objective', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -452,6 +471,8 @@ async function calculateObjectiveWinRate() {
     } catch (error) {
         console.error('Error:', error);
         alert('獲取勝率數據失敗，請稍後再試');
+    } finally {
+        hideLoading();
     }
 }
 
