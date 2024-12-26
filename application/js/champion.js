@@ -182,7 +182,7 @@ async function calculateWinRate() {
         };
 
         // 發送 POST 請求到後端
-        const response = await fetch('/match/single', {
+        const response = await fetch('/match/1v1', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -238,7 +238,7 @@ async function calculateTeamWinRate() {
         };
 
         // 發送 POST 請求到後端
-        const response = await fetch('/match/team', {
+        const response = await fetch('/match/5v5', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -316,7 +316,7 @@ async function analyzeChampion() {
         };
 
         // 發送 POST 請求到後端
-        const response = await fetch('/match/analysis', {
+        const response = await fetch('/match/analyze', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -438,7 +438,7 @@ async function calculateObjectiveWinRate() {
             return;
         }
 
-        const response = await fetch('/match/objective', {
+        const response = await fetch(`/match/objective?type=${selectedObjective}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
