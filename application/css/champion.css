@@ -299,15 +299,14 @@ button:hover {
 
 .loading-content {
     text-align: center;
-}
-
-.loading-gif {
-    width: 150px;
-    height: 150px;
-    margin-bottom: 20px;
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .loading-content p {
     font-size: 1.2em;
     color: #333;
+    margin: 0;
 }
