@@ -239,6 +239,12 @@ async function calculateTeamWinRate() {
 
         const result = await response.json();
 
+        // 检查是否为 null
+        if (result.result === null) {
+            alert('請不要亂輸入幹你娘');
+            return;
+        }
+
         // 顯示結果
         resultDiv.style.display = 'block';
         resultDiv.innerHTML = `
