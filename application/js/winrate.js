@@ -5,17 +5,16 @@ document.getElementById('fetchWinRates').addEventListener('click', function () {
         return;
     }
 
-    // 發送 AJAX 請求查詢勝率
     fetch(`/winrate/userWinRate?username=${username}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
     })
-    .then(response => response.json())
-    .then(data => {
-        const winRatesDiv = document.getElementById('winRates');
-        winRatesDiv.innerHTML = `
+        .then(response => response.json())
+        .then(data => {
+            const winRatesDiv = document.getElementById('winRates');
+            winRatesDiv.innerHTML = `
             <h3>總勝率: ${data.total}%</h3>
             <ul>
                 <li>上路: ${data.top}%</li>
@@ -26,10 +25,9 @@ document.getElementById('fetchWinRates').addEventListener('click', function () {
             </ul>
         `;
 
-        // 顯示英雄勝率按鈕並附加使用者名稱
-        document.getElementById('fetchHeroes').style.display = 'block';
-    })
-    .catch(error => console.error('Error:', error));
+            document.getElementById('fetchHeroes').style.display = 'block';
+        })
+        .catch(error => console.error('Error:', error));
 });
 
 document.getElementById('fetchHeroes').addEventListener('click', function () {
@@ -39,26 +37,25 @@ document.getElementById('fetchHeroes').addEventListener('click', function () {
         return;
     }
 
-    // 發送 AJAX 請求查詢英雄勝率
     fetch(`/winrate/HeroWinRates?username=${username}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         },
-        
+
     })
-    .then(response => response.json())
-    .then(data => {
-        const heroWinRatesDiv = document.getElementById('heroWinRates');
-        let heroList = '<h3>英雄勝率</h3><ul>';
-        data.result.forEach(hero => {
-            const [name, winRate] = Object.entries(hero)[0];
-            heroList += `<li>${name}: ${winRate}%</li>`;
-        });
-        heroList += '</ul>';
-        heroWinRatesDiv.innerHTML = heroList;
-    })
-    .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+            const heroWinRatesDiv = document.getElementById('heroWinRates');
+            let heroList = '<h3>英雄勝率</h3><ul>';
+            data.result.forEach(hero => {
+                const [name, winRate] = Object.entries(hero)[0];
+                heroList += `<li>${name}: ${winRate}%</li>`;
+            });
+            heroList += '</ul>';
+            heroWinRatesDiv.innerHTML = heroList;
+        })
+        .catch(error => console.error('Error:', error));
 });
 
 document.getElementById('addGameResult').addEventListener('click', function () {
@@ -73,7 +70,6 @@ document.getElementById('addGameResult').addEventListener('click', function () {
         return;
     }
 
-    // 發送新增遊戲結果請求
     fetch('/winrate/addGameResult', {
         method: 'POST',
         headers: {
@@ -81,16 +77,16 @@ document.getElementById('addGameResult').addEventListener('click', function () {
         },
         body: JSON.stringify({ username, passwd: password, hero, lane, result }),
     })
-    .then(response => response.json())
-    .then(data => {
-        const resultMessageDiv = document.getElementById('addResultMessage');
-        if (data.result === 'incorrectpw') {
-            resultMessageDiv.innerHTML = `<p style="color: red;">密碼錯誤，請再試一次。</p>`;
-        } else if (data.result === 'success') {
-            resultMessageDiv.innerHTML = `<p style="color: green;">成功新增遊戲結果！</p>`;
-        } else {
-            resultMessageDiv.innerHTML = `<p style="color: red;">發生未知錯誤。</p>`;
-        }
-    })
-    .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+            const resultMessageDiv = document.getElementById('addResultMessage');
+            if (data.result === 'incorrectpw') {
+                resultMessageDiv.innerHTML = `<p style="color: red;">使用者名稱或密碼錯誤，請再試一次。</p>`;
+            } else if (data.result === 'success') {
+                resultMessageDiv.innerHTML = `<p style="color: green;">成功新增遊戲結果！</p>`;
+            } else {
+                resultMessageDiv.innerHTML = `<p style="color: red;">發生未知錯誤。</p>`;
+            }
+        })
+        .catch(error => console.error('Error:', error));
 });

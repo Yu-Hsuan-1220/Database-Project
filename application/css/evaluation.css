@@ -29,7 +29,9 @@ label {
     font-weight: bold;
 }
 
-input, select, button {
+input,
+select,
+button {
     margin-bottom: 15px;
     padding: 8px;
     font-size: 16px;
@@ -50,8 +52,8 @@ button:hover {
 
 .table-container {
     margin-top: 20px;
-    max-height: 300px; /* 設定表格的最大高度 */
-    overflow-y: auto;  /* 當內容過多時顯示垂直滾動條 */
+    max-height: 300px;
+    overflow-y: auto;
     border: 1px solid #ddd;
 }
 
@@ -60,7 +62,8 @@ table {
     border-collapse: collapse;
 }
 
-th, td {
+th,
+td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;

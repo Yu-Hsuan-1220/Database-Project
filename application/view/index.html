@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>Database Final Project</title>
+  <style>
+    body {
+      background-image: url(../image/background.jpg);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-attachment: fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      height: 60vh;
+    }
+
+    .left-section, 
+    .right-section {
+      text-align: center;
+      width: 40%;
+      max-width: 300px;
+      border: 1px solid #ddd;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+    }
+
+    .left-section h2, 
+    .right-section h2 {
+      margin-bottom: 20px;
+    }
+
+    a {
+      display: block;
+      margin: 10px auto;
+      text-decoration: none;
+      color: #333333;
+      font-weight: bold;
+      padding: 10px 0;
+      border: 1px solid #333;
+      border-radius: 4px;
+      width: 80%;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    a:hover {
+      background-color: #333333;
+      color: #ffffff;
+    }
+  </style>
+</head>
+<body>
+  <h1></style><center>
+    <img src="../image/icon1.jpg" 
+    height ="30">
+    英雄聯盟資料庫
+  </center></h1>
+  <hr>
+  <div class="container">
+    <div class="left-section">
+      <h2>個人查詢</h2>
+      <a href="/adduser">註冊使用者</a>
+      <a href="/evaluation">個人英雄資料</a>
+      <a href="/winrate">個人對局資料</a>
+    </div>
+    
+    <div class="right-section">
+      <h2>資料庫查詢</h2>
+      <a href="/herodata">英雄資料</a>
+      <a href="/match">對局資料</a>
+    </div>
+  </div>
+
+</body>
+</html>
