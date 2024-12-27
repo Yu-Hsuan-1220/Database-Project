@@ -10,14 +10,13 @@ router.get("/userWinRate", (req, res) => {
     const username = req.query.username;
     console.log(username);
 
-    // 預設角色及初始勝率為 0
+    
     const roles = ["top", "jungle", "mid", "sup", "ad"];
     const defaultWinRates = roles.reduce((acc, role) => {
         acc[role] = "0.00";
         return acc;
     }, {});
 
-    // 查詢每個角色的勝率
     const sql = `
         SELECT 
             role, 

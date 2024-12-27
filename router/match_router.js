@@ -122,62 +122,82 @@ UNION ALL
 })
 
 router.post("/1v1", async (req, res) => {
-    const body = req.body;
-    const hero1 = body["hero1"];
-    const hero2 = body["hero2"];
-    const value = [hero1, hero2, hero1, hero2];
-    const sql = `
-        WITH HeroData AS (
+    try {
+        const body = req.body;
+        const hero1 = body["hero1"];
+        const hero2 = body["hero2"];
+
+        if (!hero1 || !hero2) {
+            return res.status(400).send({ error: "Both hero1 and hero2 are required." });
+        }
+
+        const value = [hero1, hero2, hero1, hero2];
+        const sql = `
+            WITH HeroData AS (
+                SELECT
+                    p.matchid,
+                    p.heroid,
+                    p.id AS participant_id,
+                    s.win
+                FROM
+                    participants p
+                JOIN
+                    champ c ON p.heroid = c.id
+                JOIN
+                    states s ON p.id = s.id
+                WHERE
+                    c.name IN (?, ?)
+            ),
+            Matchups AS (
+                SELECT
+                    h1.matchid,
+                    h1.heroid AS hero_1_id,
+                    h1.win AS hero_1_win,
+                    h2.heroid AS hero_2_id
+                FROM
+                    HeroData h1
+                JOIN
+                    HeroData h2 ON h1.matchid = h2.matchid AND h1.heroid != h2.heroid
+                WHERE
+                    h1.heroid IN (
+                        SELECT id FROM champ WHERE name = ?
+                    )
+                    AND h2.heroid IN (
+                        SELECT id FROM champ WHERE name = ?
+                    )
+            ),
+            WinRate AS (
+                SELECT
+                    COUNT(*) AS total_matches,
+                    SUM(CASE WHEN m.hero_1_win = 1 THEN 1 ELSE 0 END) * 1.0 / COUNT(*) AS hero_1_win_rate
+                FROM
+                    Matchups m
+            )
             SELECT
-                p.matchid,
-                p.heroid,
-                p.id AS participant_id,
-                s.win
+                hero_1_win_rate * 100 AS hero_1_win_rate_percentage
             FROM
-                participants p
-            JOIN
-                champ c ON p.heroid = c.id
-            JOIN
-                states s ON p.id = s.id
-            WHERE
-                c.name IN (?, ?)
-        ),
-        Matchups AS (
-            SELECT
-                h1.matchid,
-                h1.heroid AS hero_1_id,
-                h1.win AS hero_1_win,
-                h2.heroid AS hero_2_id
-            FROM
-                HeroData h1
-            JOIN
-                HeroData h2 ON h1.matchid = h2.matchid AND h1.heroid != h2.heroid
-            WHERE
-                h1.heroid IN (
-                    SELECT id FROM champ WHERE name = ?
-                )
-                AND h2.heroid IN (
-                    SELECT id FROM champ WHERE name = ?
-                )
-        ),
-        WinRate AS (
-            SELECT
-                COUNT(*) AS total_matches,
-                SUM(CASE WHEN m.hero_1_win = 1 THEN 1 ELSE 0 END) * 1.0 / COUNT(*) AS hero_1_win_rate
-            FROM
-                Matchups m
-        )
-        SELECT
-            hero_1_win_rate * 100 AS hero_1_win_rate_percentage
-        FROM
-            WinRate;
-    `
-    db.query(sql, value, (err, result) => {
-        if (err) console.log(err);
-        let winrate = result[0]["hero_1_win_rate_percentage"];
-        res.send({ "result": winrate });
-    })
-})
+                WinRate;
+        `;
+
+        db.query(sql, value, (err, result) => {
+            if (err) {
+                console.error("Database query error:", err);
+                return res.status(500).send({ error: "Internal server error." });
+            }
+
+            if (result.length === 0) {
+                return res.status(404).send({ error: "No data found." });
+            }
+
+            const winrate = result[0]["hero_1_win_rate_percentage"];
+            res.send({ result: winrate });
+        });
+    } catch (error) {
+        console.error("Error handling /1v1 request:", error);
+        res.status(500).send({ error: "An unexpected error occurred." });
+    }
+});
+
 
 router.post("/5v5", async (req, res) => {
     const body = req.body;
