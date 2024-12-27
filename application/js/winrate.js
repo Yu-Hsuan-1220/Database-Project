@@ -81,7 +81,7 @@ document.getElementById('addGameResult').addEventListener('click', function () {
         .then(data => {
             const resultMessageDiv = document.getElementById('addResultMessage');
             if (data.result === 'incorrectpw') {
-                resultMessageDiv.innerHTML = `<p style="color: red;">密碼錯誤，請再試一次。</p>`;
+                resultMessageDiv.innerHTML = `<p style="color: red;">使用者名稱或密碼錯誤，請再試一次。</p>`;
             } else if (data.result === 'success') {
                 resultMessageDiv.innerHTML = `<p style="color: green;">成功新增遊戲結果！</p>`;
             } else {
