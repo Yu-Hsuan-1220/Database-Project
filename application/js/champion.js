@@ -1,4 +1,3 @@
-// 英雄數據
 const champions = [
     { value: '1', name: 'Annie' },
     { value: '2', name: 'Olaf' },
@@ -140,7 +139,6 @@ const champions = [
     { value: '516', name: 'Ornn' }
 ];
 
-// 切換對戰模式
 function switchMode(mode) {
     document.querySelectorAll('.battle-section').forEach(section => {
         section.classList.remove('active');
@@ -148,7 +146,6 @@ function switchMode(mode) {
     document.getElementById(`${mode}-battle`).classList.add('active');
 }
 
-// 添加顯示和隱藏 loading 的函數
 function showLoading() {
     document.getElementById('loadingOverlay').style.display = 'flex';
 }
@@ -157,7 +154,6 @@ function hideLoading() {
     document.getElementById('loadingOverlay').style.display = 'none';
 }
 
-// 單人對戰勝率計算
 async function calculateWinRate() {
     showLoading();
     try {
@@ -175,13 +171,11 @@ async function calculateWinRate() {
             return;
         }
 
-        // 準備要發送的數據
         const data = {
             hero1: champion1.options[champion1.selectedIndex].text,
             hero2: champion2.options[champion2.selectedIndex].text
         };
 
-        // 發送 POST 請求到後端
         const response = await fetch('/match/1v1', {
             method: 'POST',
             headers: {
@@ -196,7 +190,6 @@ async function calculateWinRate() {
 
         const result = await response.json();
 
-        // 顯示結果
         resultDiv.style.display = 'block';
         resultDiv.innerHTML = `
             <h3>對戰勝率結果</h3>
@@ -210,7 +203,6 @@ async function calculateWinRate() {
     }
 }
 
-// 團隊對戰勝率計算
 async function calculateTeamWinRate() {
     showLoading();
     try {
@@ -223,7 +215,6 @@ async function calculateTeamWinRate() {
             return;
         }
 
-        // 检查重复英雄
         const allPicks = [...bluePicks, ...redPicks];
         const uniquePicks = new Set(allPicks);
         if (uniquePicks.size !== allPicks.length) {
@@ -231,13 +222,11 @@ async function calculateTeamWinRate() {
             return;
         }
 
-        // 準備要發送的數據
         const data = {
             blue_team: bluePicks,
             red_team: redPicks
         };
 
-        // 發送 POST 請求到後端
         const response = await fetch('/match/5v5', {
             method: 'POST',
             headers: {
@@ -252,13 +241,11 @@ async function calculateTeamWinRate() {
 
         const result = await response.json();
 
-        // 检查是否为 null
         if (result.result === null) {
-            alert('請不要亂輸入幹你娘');
+            alert('未找到相關資料');
             return;
         }
 
-        // 顯示結果
         resultDiv.style.display = 'block';
         resultDiv.innerHTML = `
             <h3>團隊對戰勝率分析</h3>
@@ -296,7 +283,6 @@ function generateTeamAnalysis(winRate) {
     return analysis.join('');
 }
 
-// 分析英雄
 async function analyzeChampion() {
     showLoading();
     try {
@@ -309,13 +295,11 @@ async function analyzeChampion() {
             return;
         }
 
-        // 準備要發送的數據
         const data = {
             champion: champion.options[champion.selectedIndex].text,
             position: position.value
         };
 
-        // 發送 POST 請求到後端
         const response = await fetch('/match/analyze', {
             method: 'POST',
             headers: {
@@ -330,13 +314,10 @@ async function analyzeChampion() {
 
         const result = await response.json();
 
-        // 顯示結果
         resultDiv.style.display = 'block';
 
-        // 从 result 对象中获取数组
         const matchupData = result.result;
 
-        // 更新最佳對手列表（前5名）
         const bestList = document.getElementById('best-matchups-list');
         bestList.innerHTML = matchupData.slice(0, 5).map(matchup => `
             <li class="matchup-item">
@@ -348,7 +329,6 @@ async function analyzeChampion() {
             </li>
         `).join('');
 
-        // 更新最差對手列表（後5名）
         const worstList = document.getElementById('worst-matchups-list');
         worstList.innerHTML = matchupData.slice(-5).map(matchup => `
             <li class="matchup-item">
@@ -368,14 +348,12 @@ async function analyzeChampion() {
     }
 }
 
-// 生成模擬的對戰數據
 function generateMatchupData(championId) {
     const matchups = [];
     const selectedChampion = champions.find(c => c.value === championId);
 
     champions.forEach(opponent => {
         if (opponent.value !== championId) {
-            // 生成一個35%到65%之間的隨機勝率
             const baseWinRate = 50;
             const variation = 15;
             const winrate = baseWinRate + (Math.random() * variation * 2 - variation);
@@ -391,7 +369,6 @@ function generateMatchupData(championId) {
     return matchups;
 }
 
-// 初始化頁面
 function initializePage() {
     const allSelects = document.querySelectorAll('select');
     allSelects.forEach(select => {
@@ -406,10 +383,8 @@ function initializePage() {
     });
 }
 
-// 當頁面加載完成時初始化
 document.addEventListener('DOMContentLoaded', initializePage);
 
-// 更新統計數據
 async function updateStats() {
     const selectedStat = document.getElementById('stat-select').value;
 
@@ -417,16 +392,13 @@ async function updateStats() {
         return;
     }
 
-    // 生成50-70之間的隨機勝率
     const randomWinRate = (Math.random() * 20 + 50).toFixed(1);
 
-    // 顯示結果
     const resultDiv = document.getElementById('stats-result');
     resultDiv.style.display = 'block';
     resultDiv.innerHTML = `<h3>統計結果</h3><p>勝率: ${randomWinRate}%</p>`;
 }
 
-// 計算目標勝率
 async function calculateObjectiveWinRate() {
     showLoading();
     try {
@@ -451,10 +423,8 @@ async function calculateObjectiveWinRate() {
 
         const result = await response.json();
 
-        // 显示结果
         resultDiv.style.display = 'block';
 
-        // 獲取目標的中文名稱
         const objectiveNames = {
             'dragon': '拿到第一條小龍',
             'baron': '拿到第一條巴龍',

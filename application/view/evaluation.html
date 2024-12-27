@@ -1,21 +1,78 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>新增英雄資料</title>
-    <link rel="stylesheet" href="/css/evaluation.css">
-</head>
-<body>
-    <a href="../"><img src="../image/icon.jpg"></a>
-    <div class="container">
-        <h1>新增英雄資料</h1>
-        <form id="hero-form">
-            <label for="hero-name">英雄:</label>
-            <input type="text" id="hero-name" name="hero-name" required>
-            
-            <label for="route">路線:</label>
-            <select id="route" name="route" required>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>新增英雄資料</title>
+        <link rel="stylesheet" href="/css/evaluation.css">
+    </head>
+    <body>
+        <a href="../"><img src="../image/icon.jpg"></a>
+        <div class="container">
+            <h1>新增英雄資料</h1>
+            <form id="hero-form">
+                <label for="hero-name">英雄:</label>
+                <input type="text" id="hero-name" name="hero-name" required>
+
+                <label for="route">路線:</label>
+                <select id="route" name="route" required>
+                    <option value="上路">上路</option>
+                    <option value="中路">中路</option>
+                    <option value="下路">下路</option>
+                    <option value="打野">打野</option>
+                    <option value="輔助">輔助</option>
+                </select>
+
+                <label for="rating">評價 (0~10):</label>
+                <input type="number" id="rating" name="rating" min="0" max="10" required>
+
+                <button type="submit">新增</button>
+            </form>
+        </div>
+
+        <div class="container">
+            <h1>查詢英雄資料</h1>
+            <label for="search-route">選擇路線查詢:</label>
+            <select id="search-route" name="search-route">
+                <option value="">--選擇路線--</option>
+                <option value="上路">上路</option>
+                <option value="中路">中路</option>
+                <option value="下路">下路</option>
+                <option value="打野">打野</option>
+                <option value="輔助">輔助</option>
+            </select>
+            <button id="search-button">查詢</button>
+
+            <div class="table-container">
+                <table id="result-table">
+                    <thead>
+                        <tr>
+                            <th>編號</th>
+                            <th>角色</th>
+                            <th>路線</th>
+                            <th>評價</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- 查詢結果將顯示在這裡 -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="container">
+            <h1>刪除英雄資料</h1>
+            <label for="delete-id">輸入要刪除的資料編號:</label>
+            <input type="number" id="delete-id" name="delete-id">
+            <button id="delete-button">刪除</button>
+        </div>
+
+        <div class="container">
+            <h1>修改英雄資料</h1>
+            <label for="update-id">輸入要修改的資料編號:</label>
+            <input type="number" id="update-id" name="update-id">
+
+            <label for="update-route">新的路線:</label>
+            <select id="update-route" name="update-route">
                 <option value="上路">上路</option>
                 <option value="中路">中路</option>
                 <option value="下路">下路</option>
@@ -23,69 +80,12 @@
                 <option value="輔助">輔助</option>
             </select>
 
-            <label for="rating">評價 (0~10):</label>
-            <input type="number" id="rating" name="rating" min="0" max="10" required>
+            <label for="update-rating">新的評價 (0~10):</label>
+            <input type="number" id="update-rating" name="update-rating" min="0" max="10">
 
-            <button type="submit">新增</button>
-        </form>
-    </div>
-
-    <div class="container">
-        <h1>查詢英雄資料</h1>
-        <label for="search-route">選擇路線查詢:</label>
-        <select id="search-route" name="search-route">
-            <option value="">--選擇路線--</option>
-            <option value="上路">上路</option>
-            <option value="中路">中路</option>
-            <option value="下路">下路</option>
-            <option value="打野">打野</option>
-            <option value="輔助">輔助</option>
-        </select>
-        <button id="search-button">查詢</button>
-
-        <div class="table-container">
-            <table id="result-table">
-                <thead>
-                    <tr>
-                        <th>編號</th>
-                        <th>角色</th>
-                        <th>路線</th>
-                        <th>評價</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- 查詢結果將顯示在這裡 -->
-                </tbody>
-            </table>
+            <button id="update-button">修改</button>
         </div>
-    </div>
-    <div class="container">
-        <h1>刪除英雄資料</h1>
-        <label for="delete-id">輸入要刪除的資料編號:</label>
-        <input type="number" id="delete-id" name="delete-id">
-        <button id="delete-button">刪除</button>
-    </div>
 
-    <div class="container">
-        <h1>修改英雄資料</h1>
-        <label for="update-id">輸入要修改的資料編號:</label>
-        <input type="number" id="update-id" name="update-id">
-        
-        <label for="update-route">新的路線:</label>
-        <select id="update-route" name="update-route">
-            <option value="上路">上路</option>
-            <option value="中路">中路</option>
-            <option value="下路">下路</option>
-            <option value="打野">打野</option>
-            <option value="輔助">輔助</option>
-        </select>
-
-        <label for="update-rating">新的評價 (0~10):</label>
-        <input type="number" id="update-rating" name="update-rating" min="0" max="10">
-        
-        <button id="update-button">修改</button>
-    </div>
-    
-    <script src="js/evaluation.js"></script>
-</body>
+        <script src="js/evaluation.js"></script>
+    </body>
 </html>

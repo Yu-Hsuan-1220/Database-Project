@@ -1,5 +1,5 @@
 //新增資料
-document.getElementById('hero-form').addEventListener('submit', function(event) {
+document.getElementById('hero-form').addEventListener('submit', function (event) {
     event.preventDefault();
 
     const heroName = document.getElementById('hero-name').value;
@@ -12,7 +12,6 @@ document.getElementById('hero-form').addEventListener('submit', function(event) 
         rate: rating
     };
 
-    
     fetch('/evaluation/data', {
         method: 'POST',
         headers: {
@@ -20,19 +19,18 @@ document.getElementById('hero-form').addEventListener('submit', function(event) 
         },
         body: JSON.stringify(data)
     })
-    
-    .then(() => {
-        alert('資料新增成功');
-        location.reload();
 
-    })
-    .catch(error => {
-        console.error('錯誤:', error);
-        alert('新增資料時發生錯誤');
-    });
+        .then(() => {
+            alert('資料新增成功');
+            location.reload();
+        })
+        .catch(error => {
+            console.error('錯誤:', error);
+            alert('新增資料時發生錯誤');
+        });
 });
 
-document.getElementById('search-button').addEventListener('click', function() {
+document.getElementById('search-button').addEventListener('click', function () {
     const selectedRoute = document.getElementById('search-route').value;
 
     if (selectedRoute === "") {
@@ -40,41 +38,39 @@ document.getElementById('search-button').addEventListener('click', function() {
         return;
     }
 
-    // 使用 AJAX 送出 GET 請求，查詢特定路線的英雄資料
     fetch(`/evaluation/data?role=${encodeURIComponent(selectedRoute)}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        if (data.result.length !=0 && Array.isArray(data.result)) {
-            const tableBody = document.querySelector('#result-table tbody');
-            tableBody.innerHTML = ''; // 清空表格
+        .then(response => response.json())
+        .then(data => {
+            if (data.result.length != 0 && Array.isArray(data.result)) {
+                const tableBody = document.querySelector('#result-table tbody');
+                tableBody.innerHTML = '';
 
-            // 將結果填入表格
-            data.result.forEach(item => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
+                data.result.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
                     <td>${item.ID}</td>
                     <td>${item.hero}</td>
                     <td>${item.role}</td>
                     <td>${item.rate}</td>
-                `; 
-                tableBody.appendChild(row);
-            });
-        } else {
-            alert('查詢結果為空');
-        }
-    })
-    .catch(error => {
-        console.error('錯誤:', error);
-        alert('查詢資料時發生錯誤');
-    });
+                `;
+                    tableBody.appendChild(row);
+                });
+            } else {
+                alert('查詢結果為空');
+            }
+        })
+        .catch(error => {
+            console.error('錯誤:', error);
+            alert('查詢資料時發生錯誤');
+        });
 });
 
-document.getElementById('delete-button').addEventListener('click', function() {
+document.getElementById('delete-button').addEventListener('click', function () {
     const deleteId = document.getElementById('delete-id').value;
 
     if (deleteId === "") {
@@ -82,32 +78,29 @@ document.getElementById('delete-button').addEventListener('click', function() {
         return;
     }
 
-    // 使用 AJAX 送出 DELETE 請求
     fetch(`/evaluation/data/${deleteId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        //console.log(data);
-        if(data.result === "fail"){
-            alert("找不到此ID");
-        }
-        else{
-            alert('資料刪除成功');
-        }
-        location.reload(); // 刪除成功後重新整理頁面
-    })
-    .catch(error => {
-        console.error('錯誤:', error);
-        alert('刪除資料時發生錯誤');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === "fail") {
+                alert("找不到此ID");
+            }
+            else {
+                alert('資料刪除成功');
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.error('錯誤:', error);
+            alert('刪除資料時發生錯誤');
+        });
 });
 
-// 修改功能
-document.getElementById('update-button').addEventListener('click', function() {
+document.getElementById('update-button').addEventListener('click', function () {
     const updateId = document.getElementById('update-id').value;
     const newRoute = document.getElementById('update-route').value;
     const newRating = document.getElementById('update-rating').value;
@@ -116,20 +109,19 @@ document.getElementById('update-button').addEventListener('click', function() {
         alert('請輸入要修改的英雄編號');
         return;
     }
-    if (newRoute === ""){
+    if (newRoute === "") {
         alert('請輸入路線');
         return;
     }
-    if (newRating === ""){
+    if (newRating === "") {
         alert('請輸入新的評價');
-        return 
+        return
     }
     const updateData = {
         role: newRoute,
         rate: newRating
     };
 
-    
     fetch(`/evaluation/data/${updateId}`, {
         method: 'PUT',
         headers: {
@@ -137,41 +129,18 @@ document.getElementById('update-button').addEventListener('click', function() {
         },
         body: JSON.stringify(updateData)
     })
-    .then(response => response.json())
-    .then(data => {
-        if(data.result === "fail"){
-            alert("找不到此ID");
-        }
-        else{
-            alert('資料修改成功');
-        }
-        location.reload(); // 修改成功後重新整理頁面
-    })
-    .catch(error => {
-        console.error('錯誤:', error);
-        alert('修改資料時發生錯誤');
-    });
+        .then(response => response.json())
+        .then(data => {
+            if (data.result === "fail") {
+                alert("找不到此ID");
+            }
+            else {
+                alert('資料修改成功');
+            }
+            location.reload();
+        })
+        .catch(error => {
+            console.error('錯誤:', error);
+            alert('修改資料時發生錯誤');
+        });
 });
-
-/*
-function deleteHero(id) {
-    fetch(`/evaluation/data/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        }
-    })
-    .then(data => {
-        alert('資料刪除成功');
-        location.reload();
-    })
-    .catch(error => {
-        console.error('錯誤:', error);
-        alert('刪除資料時發生錯誤');
-    });
-}
-
-// 載入要修改的英雄資料
-function loadHeroForUpdate(id) {
-    document.getElementById('update-id').value = id;
-}*/
