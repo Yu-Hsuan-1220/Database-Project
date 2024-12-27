@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({
 
 
 app.get("/", (req, res)=>{
-    res.send("這是根目錄")
+    res.render("index.html")
 })
 app.use("/evaluation", evaluationRouter);
 app.use("/winrate", winrateRouter);
