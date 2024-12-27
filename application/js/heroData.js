@@ -82,6 +82,8 @@ document.getElementById('search_heroData').addEventListener('click', function ()
     .then(response => response.json())
     .then(data => {
         const hero_Datas_Div = document.getElementById('hero_Datas');
+        
+        hero_Datas_Div.innerHTML = ``;
 
         data.result.forEach(each_data => {
 
