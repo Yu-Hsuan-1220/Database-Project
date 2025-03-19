@@ -9,3 +9,7 @@
 4. Search others' evaluation of different Heros
 
 5. Search the winrate with different scenario
+
+## Demo video:
+
+https://youtu.be/uYDS4IS4uAY
