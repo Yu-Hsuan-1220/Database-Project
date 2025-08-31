@@ -1,4 +1,7 @@
-# A web server for leaguage of legend
+# NCYU Introduction to Database system
+
+Description A web server for leaguage of legend
+
 ## Funcion:
 1. User Sign up and login system
 
