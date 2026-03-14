@@ -1,4 +1,4 @@
-# NCYU Introduction to Database Systems
+# NYCU Introduction to Database Systems
 
 A Leaguage of Legends assistant **web server** based on **database** with the following functions: 
 
